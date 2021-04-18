@@ -7,6 +7,7 @@ const app = Vue.createApp({
       confirmedName: "",
     };
   },
+  computed: {},
   methods: {
     add() {
       this.counter += this.num;

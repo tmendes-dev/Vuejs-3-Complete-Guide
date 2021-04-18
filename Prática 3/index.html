@@ -22,8 +22,8 @@
         <label>Insira seu nome: </label>
         <input
           type="text"
-          v-on:input="inputName($event)"
-          v-on:keyup.enter="confirmName"
+          @input="inputName($event)"
+          @keyup.enter="confirmName"
         />
         <br />
         <p>Bem vindo {{confirmedName}} !!!</p>
@@ -37,7 +37,7 @@
         <p>Valor: {{counter}}</p>
         <hr />
       </div>
-      <form v-on:submit.prevent="submitForm">
+      <form @submit.prevent="submitForm">
         <input type="text" />
         <button>Registrar</button>
       </form>
