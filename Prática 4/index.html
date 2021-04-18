@@ -19,19 +19,19 @@
     <section id="styling">
       <div
         class="demo"
-        :class="{active:boxSelected1}"
+        :class="box1Classes"
         :style="{borderColor: boxSelected1 ? 'red': '#ccc'}"
         @click="boxSelected(1)"
       ></div>
       <div
         class="demo"
-        :class="{active:boxSelected2}"
+        :class="box2Classes"
         :style="{borderColor: boxSelected2 ? 'red': '#ccc'}"
         @click="boxSelected(2)"
       ></div>
       <div
         class="demo"
-        :class="{active:boxSelected3}"
+        :class="box3Classes"
         :style="{borderColor: boxSelected3 ? 'red': '#ccc'}"
         @click="boxSelected(3)"
       ></div>
