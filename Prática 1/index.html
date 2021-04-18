@@ -11,10 +11,13 @@
   <body>
     <div id="app">
       <label>Objetivos</label>
-      <input type="text" id="goal" />
-      <button type="submit">Adicionar</button>
-      <ul></ul>
+      <input type="text" id="goal" v-model="inputUser" />
+      <button type="submit" v-on:click="addObj">Adicionar</button>
+      <ul v-for="(obj, index) in objetivos" :key="index">
+        <li>{{obj}}</li>
+      </ul>
     </div>
+    <script src="https://unpkg.com/vue@next"></script>
     <script src="app.js"></script>
   </body>
 </html>
