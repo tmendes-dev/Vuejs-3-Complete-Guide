@@ -1,4 +1,4 @@
-function getRandomAtk(min, max) {
+function getRandomValue(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 const app = Vue.createApp({
@@ -7,7 +7,24 @@ const app = Vue.createApp({
       playerHp: 100,
       monsterHp: 100,
       currentRound: 0,
+      winner: null,
     };
+  },
+  watch: {
+    playerHp(value) {
+      if (value <= 0 && this.monsterHp <= 0) {
+        this.winner = "Draw";
+      } else if (this.playerHp <= 0) {
+        this.winner = "Monster win!";
+      }
+    },
+    monsterHp(value) {
+      if (value <= 0 && this.playerHp <= 0) {
+        this.winner = "Draw";
+      } else if (this.monsterHp <= 0) {
+        this.winner = "Player win!";
+      }
+    },
   },
   computed: {
     playerHpBar() {
@@ -19,24 +36,60 @@ const app = Vue.createApp({
   },
   methods: {
     attackMonster() {
-      let atkValue = getRandomAtk(12, 5);
-      this.monsterHp -= atkValue;
-      this.attackPlayer();
+      let atkValue = getRandomValue(12, 5);
+      if (this.monsterHp - atkValue <= 0) {
+        this.monsterHp = 0;
+      } else {
+        this.monsterHp -= atkValue;
+      }
+      if (this.playerHp > 0) {
+        this.attackPlayer();
+      }
+
       this.currentRound++;
     },
     attackPlayer() {
-      let atkValue = getRandomAtk(12, 8);
-      this.playerHp -= atkValue;
+      let atkValue = getRandomValue(12, 8);
+      if (this.playerHp - atkValue < 0) {
+        this.playerHp = 0;
+      } else {
+        this.playerHp -= atkValue;
+      }
     },
     specialAttack() {
-      let atkValue = getRandomAtk(10, 25);
-      this.monsterHp -= atkValue;
-      this.attackPlayer();
+      let atkValue = getRandomValue(10, 25);
+      if (this.monsterHp - atkValue <= 0) {
+        this.monsterHp = 0;
+      } else {
+        this.monsterHp -= atkValue;
+      }
+      if (this.monsterHp > 0 && this.playerHp > 0) {
+        this.attackPlayer();
+      }
       this.currentRound++;
     },
     canUseSpecialAttack() {
       return this.currentRound % 3 !== 0;
     },
-    healPlayer() {},
+    healPlayer() {
+      let healValue = getRandomValue(8, 20);
+      if (this.playerHp + healValue > 100) {
+        this.playerHp = 100;
+      } else {
+        this.playerHp += healValue;
+      }
+      this.currentRound++;
+
+      this.attackPlayer();
+    },
+    playAgain() {
+      this.monsterHp = 100;
+      this.playerHp = 100;
+      this.winner = null;
+      this.currentRound = 0;
+    },
+    surrender() {
+      this.winner = "Player lost !";
+    },
   },
 }).mount("#game");

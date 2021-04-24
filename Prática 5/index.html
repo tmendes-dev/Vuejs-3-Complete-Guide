@@ -19,22 +19,29 @@
     <div id="game">
       <section id="monster" class="container">
         <h2>Monster HP</h2>
+        <strong>HP: {{monsterHp}}</strong>
         <div class="healthbar">
           <div class="healthbar__value" :style="monsterHpBar"></div>
         </div>
       </section>
       <section id="player" class="container">
         <h2>Your HP</h2>
+        <strong>HP: {{playerHp}}</strong>
         <div class="healthbar">
           <div class="healthbar__value" :style="playerHpBar"></div>
         </div>
       </section>
-      <section id="controls">
+      <section v-if="winner" class="container">
+        <h2>Game Over!</h2>
+        <h3>{{winner}}</h3>
+        <button @click="playAgain">Play Again !</button>
+      </section>
+      <section id="controls" v-else>
         <button @click="attackMonster">ATTACK</button>
         <button :disabled="canUseSpecialAttack()" @click="specialAttack">
           SPECIAL ATTACK
         </button>
-        <button>HEAL</button>
+        <button @click="healPlayer">HEAL</button>
         <button>SURRENDER</button>
       </section>
       <section id="log" class="container">
