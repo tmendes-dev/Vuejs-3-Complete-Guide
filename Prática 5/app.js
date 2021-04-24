@@ -8,6 +8,7 @@ const app = Vue.createApp({
       monsterHp: 100,
       currentRound: 0,
       winner: null,
+      logBattle: [],
     };
   },
   watch: {
@@ -45,7 +46,11 @@ const app = Vue.createApp({
       if (this.playerHp > 0) {
         this.attackPlayer();
       }
-
+      this.addLogMsg(
+        "Player",
+        "attacked monster and dealt",
+        atkValue + " damage"
+      );
       this.currentRound++;
     },
     attackPlayer() {
@@ -55,6 +60,11 @@ const app = Vue.createApp({
       } else {
         this.playerHp -= atkValue;
       }
+      this.addLogMsg(
+        "Monster",
+        "attacked player and dealt",
+        atkValue + " damage"
+      );
     },
     specialAttack() {
       let atkValue = getRandomValue(10, 25);
@@ -66,6 +76,11 @@ const app = Vue.createApp({
       if (this.monsterHp > 0 && this.playerHp > 0) {
         this.attackPlayer();
       }
+      this.addLogMsg(
+        "Player",
+        "special attacked monster and dealt",
+        atkValue + " damage"
+      );
       this.currentRound++;
     },
     canUseSpecialAttack() {
@@ -79,7 +94,7 @@ const app = Vue.createApp({
         this.playerHp += healValue;
       }
       this.currentRound++;
-
+      this.addLogMsg("Player", "healed", atkValue + " HP");
       this.attackPlayer();
     },
     playAgain() {
@@ -90,6 +105,9 @@ const app = Vue.createApp({
     },
     surrender() {
       this.winner = "Player lost !";
+    },
+    addLogMsg(who, what, value) {
+      this.logBattle.unshift(who + " " + what + " " + value + ".");
     },
   },
 }).mount("#game");
